@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>上传绘画</title>
+  <link rel="stylesheet" href="./static/layui-v2.5.7/layui/css/layui.css">
+
+
+
+  <style>
+    .wrapper {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 80vh;
+    }
+
+    #title {
+      font-size: 16px;
+      padding: 5px;
+      margin: 20px 0;
+      width: 200px;
+    }
+
+    #fileName {
+      width: 50%;
+      margin: 20px 0;
+    }
+
+    .radioGroup {
+      width:200px;
+      height: 50px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .radioGroup input{
+      height: 30px;
+      width: 20px;
+      cursor: pointer;
+    }
+    .radioGroup input[type="radio"]:checked:after{
+      background-color:red;
+    }
+    .radioGroup label:nth-child(3){
+      margin-left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style='text-align: center;margin-top: 10px;'>绘画上传</h1>
+  <a href="/gallery.html" style="text-align:center; margin:0 auto; display:block;margin-top: 10px;">预览</a>
+  <div class="wrapper">
+    <label>说点什么</label>
+    <textarea id="title" maxlength="20" required></textarea>
+    <button type="button" class="layui-btn" id="test1">
+      <i class="layui-icon">&#xe67c;</i>上传图片
+    </button>
+    <div class="radioGroup">
+      <label>绘画</label><input type="radio" class="togo" name="art" value="drawing" title="绘画" checked>
+      <label>摄影</label><input type="radio" class="togo" name="art" value="photo" title="摄影">
+    </div>
+    <input style="visibility: hidden;" id="artChoice" value="drawing">
+    <input id="fileName" type="text" lay-verify="fileName" autocomplete="off" class="layui-input" disabled>
+    <label>日期</label>
+    <input style="height:40px;margin-bottom: 30px;" id='theDate' type=text />
+    <button type="button" class="layui-btn" id="uploadAll">上传服务器</button>
+
+
+
+  </div>
+  <script src="./js/jquery-3.6.0.min.js"></script>
+  <script src="./static/layui-v2.5.7/layui/layui.all.js"></script>
+  <script>
+    $('.togo').on('click', function () {
+      $('#artChoice').val(this.value);
+    });
+    var upload = layui.upload;
+    var uploadInst = upload.render({
+      elem: '#test1' //绑定元素
+      , auto: false
+      , bindAction: '#uploadAll'
+      , url: 'https://aprilorchid.com/handler/upload.php' //上传接口
+      , data: {
+        title: function () {
+          return $('#title').val();
+        },
+        date: function () {
+          return $('#theDate').val();
+        },
+        artChoice: function () {
+          return $('#artChoice').val();
+        }
+      }
+      , drag: "true",
+      muitiple: "true"
+      , choose: function (obj) {
+        obj.preview(function (index, file, result) {
+          $('#fileName').val(file.name);
+          console.log(file);
+        })
+      }
+      , done: function (res) {
+        //上传完毕回调
+        console.log(res);
+        $('#credential_hide').val(res.msg); //隐藏输入框赋值
+        $('#fileName').val('');
+        $('#title').val('');
+        $('#theDate').val('');
+        layer.msg('上传成功');
+      }
+      , error: function () {
+        //请求异常回调
+        alert("Bad");
+      }
+    });
+
+  </script>
+</body>
+
+</html>
