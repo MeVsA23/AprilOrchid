@@ -54,19 +54,16 @@ $(function () {
   var sentences = [
     '诸事不顺, 就稍稍休息一下吧',
     '我笑起来真好看, 像春天的皮皮虾',
-    '有个朋友问我, 不喜欢社交的人怎么找对象',
     '平凡、普通、幸福、快乐，并不相互冲突',
     '无词的音乐, 是心灵的感应',
     '那个进度条, 是不允许拖动的',
     '静下心来, 寻找自己真正想要的',
-    '我时常孤身一人, 却从不感到孤独',
     '谢谢你可以来到这里, 希望你度过美好的一天',
     '没有句号的句子, 就不代表结束',
     '其实你也可以留个言, 展示在这里',
     '为什么音乐图片不会换, 因为我知道你只看这里',
     '有多久没有仰望星空了呢',
     '小船, 小船, 漂啊漂~~',
-    '这些话都是几分钟编的, 嘿嘿嘿',
     '你可以边滑动, 边看这里'
   ]
 
@@ -270,7 +267,7 @@ $(function () {
     }
   });
  
-  $('.submit').on('click', function(){
+  $('.submit').on('click','.showButton', function(){
     let content = $('.textArea');
     $.ajax({
              url: "./handler/textHandler.php", 
@@ -281,7 +278,7 @@ $(function () {
               $(".show").append('<div class="popUP">服务器接收错误</div>');
               setTimeout(()=>{
                   $('.popUP').remove();
-              },1500)
+              },3000)
              },  
              success: function(res){//如果调用php成功 
               console.log(res.msg);
@@ -290,7 +287,7 @@ $(function () {
               content.val('');
               setTimeout(()=>{
                   $('.popUP').remove();
-              },2000)
+              },5000)
             }
   })
 });
