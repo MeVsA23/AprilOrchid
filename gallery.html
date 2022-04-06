@@ -10,7 +10,7 @@
       content="马越,个人网站, 肆月蘭, 四月兰, 马越的个人网站, 马越的个人主页,个人主页"
     />
     <title>肆月蘭</title>
-    <link rel="stylesheet" href="./static/myStyles.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/myStyles.min.css" />
     <link rel="icon" type="icon/png" href="./images/favicon.png" />
     <link
       rel="stylesheet"
@@ -19,19 +19,23 @@
   </head>
 
   <body>
+    <div class="loading">
+      Loading...
+    </div>
     <!-- 
       
-                      ╔╦╗┌─┐  ╦ ╦┬ ┬┌─┐
-                      ║║║├─┤  ╚╦╝│ │├┤ 
-                      ╩ ╩┴ ┴   ╩ └─┘└─┘
-
-                    ╔══╦══        ═╬═       ╮
-                    ╠══╬══        ═╬═  ╔═╠══ 
-                    ╠══╬══         ╠═  ║  ║╱
-                    ╚══╩════╗    ║ ║   ║╱ ╱║╱
-                   ╱ ║ ║ ║  ║    ║══════════════
-                           ═╝   ╱   
+//                    ╔╦╗┌─┐  ╦ ╦┬ ┬┌─┐
+//                    ║║║├─┤  ╚╦╝│ │├┤ 
+//                    ╩ ╩┴ ┴   ╩ └─┘└─┘
+//
+//                    ╔══╦══         ═╬═       ╮
+//                    ╠══╬══        ═╬═  ╔═╠══ 
+//                    ╠══╬══         ╠═  ║  ║╱
+//                    ╚══╩════╗    ║ ║   ║╱ ╱║╱
+//                   ╱ ║ ║ ║  ║    ║══════════════
+//                           ═╝   ╱   
      -->
+     
     <div class="headgroup">
       <img class="gallerylogo" src="./images/galleryLogo.png" />
       <span class="text-gradient">'s 電子繪畫</span>
@@ -50,25 +54,30 @@
     <script src="./js/lazyload-2.x/lazyload.min.js"></script>
     <script src="./js/imgquery.js"></script>
     <script>
-      
-     
+      let count = 0;
+
+      function countLoad() {
+        count += 1;
+        console.log("count", count);
+      }
+      console.log("count", count);
       $(".galleryWrap").on("click", ".likeInfo", function (e) {
-        let love = $(this).children('.love');
-        let status = love.attr('status');
-        let id = love.attr('gal-id');
+        let love = $(this).children(".love");
+        let status = love.attr("status");
+        let id = love.attr("gal-id");
         let thisLike = love.siblings();
         let num = parseInt(thisLike.text());
-        if(status == 0){
-          thisLike.text(num+1);
-          love.attr('status', '1');
-          
-          love.children('path').attr('fill', '#ffffff');
-        }else{
-          thisLike.text(num-1);
-          love.attr('status', '0');
-          love.children('path').attr('fill', 'none');
+        if (status == 0) {
+          thisLike.text(num + 1);
+          love.attr("status", "1");
+
+          love.children("path").attr("fill", "#ce3838");
+        } else {
+          thisLike.text(num - 1);
+          love.attr("status", "0");
+          love.children("path").attr("fill", "none");
         }
-        console.log('status: ', status);
+        console.log("status: ", status);
         $.ajax({
           url: "./handler/likes.php",
           type: "POST",
@@ -83,10 +92,16 @@
           },
           success: function (res) {
             //如果调用php成功
-            console.log("请求状态：", res.status + ' \n执行id: ' + res.excuted + '  \n数据库报告: ' +res.error);
+            console.log(
+              "请求状态：",
+              res.status +
+                " \n执行id: " +
+                res.excuted +
+                "  \n数据库报告: " +
+                res.error
+            );
           },
         });
-        
       });
     </script>
   </body>
